@@ -251,7 +251,8 @@ def read_single_record(fname):
         'vid_name': [],
         'frame_id': [],
         'joints2D': [], # should contain openpose keypoints only
-        'features': [],
+        # 'features': [],
+        # 'bbox':[],
     }
 
     model = spin.get_pretrained_hmr()
@@ -310,6 +311,7 @@ def read_single_record(fname):
             kp_2d.append(np.expand_dims(kp.T, axis=0))
 
         video = np.concatenate(video, axis=0)
+
         kp_2d = np.concatenate(kp_2d, axis=0)
 
         vid_name = f'{fname}-{vid_idx}'
@@ -319,12 +321,12 @@ def read_single_record(fname):
         dataset['vid_name'].append(np.array([vid_name] * N))
         dataset['frame_id'].append(frame_id)
         dataset['joints2D'].append(joints2D)
-
-        features = extract_features(model, video, bbox=None, kp_2d=kp_2d, dataset='insta', debug=False)
-        dataset['features'].append(features)
-
-        print(features.shape)
-        assert features.shape[0] == N
+        # dataset['video'].append(video)
+        # features = extract_features(model, video, bbox=None, kp_2d=kp_2d, dataset='insta', debug=False)
+        # dataset['features'].append(features)
+        #
+        # print(features.shape)
+        # assert features.shape[0] == N
 
     for k in dataset.keys():
         dataset[k] = np.concatenate(dataset[k])
@@ -348,7 +350,8 @@ def concatenate_annotations():
         'vid_name': [],
         'frame_id': [],
         'joints2D': [],
-        'features': [],
+        # 'features': [],
+        # 'video': [],
     }
 
     for i in range(273):
@@ -379,6 +382,7 @@ if __name__ == '__main__':
     os.makedirs(osp.join(VIBE_DB_DIR, 'insta_parts'), exist_ok=True)
 
     for idx, fp in enumerate(fpaths):
+        print('YYYYYYYYYYYYYYYYYYYYYYYY   ' + str(idx))
         dataset = read_single_record(fp)
 
         db_file = osp.join(VIBE_DB_DIR, 'insta_parts', f'insta_train_part_{idx}.h5')

@@ -184,16 +184,16 @@ def read_data_train(dataset_path, debug=False):
                 if (np.where(vid_segments[:-1] != vid_segments[1:])[0]).size != 0:
                     ids[1:-1] = (np.where(vid_segments[:-1] != vid_segments[1:])[0]) + 1
 
-                for i in tqdm(range(len(set(vid_segments)))):
-                    features = extract_features(model, np.array(vid_used_frames)[int(ids[i]):int(ids[i+1])],
-                                                vid_used_bbox[int(ids[i]):int((ids[i+1]))],
-                                                kp_2d=np.array(vid_used_joints)[int(ids[i]):int(ids[i+1])],
-                                                dataset='spin', debug=False)
-                    dataset['features'].append(features)
+                # for i in tqdm(range(len(set(vid_segments)))):
+                #     features = extract_features(model, np.array(vid_used_frames)[int(ids[i]):int(ids[i+1])],
+                #                                 vid_used_bbox[int(ids[i]):int((ids[i+1]))],
+                #                                 kp_2d=np.array(vid_used_joints)[int(ids[i]):int(ids[i+1])],
+                #                                 dataset='spin', debug=False)
+                #     dataset['features'].append(features)
 
     for k in dataset.keys():
         dataset[k] = np.array(dataset[k])
-    dataset['features'] = np.concatenate(dataset['features'])
+    # dataset['features'] = np.concatenate(dataset['features'])
 
     return dataset
 
@@ -209,6 +209,7 @@ def read_test_data(dataset_path):
         'img_name': [],
         'features': [],
         "valid_i": []
+
     }
 
     model = spin.get_pretrained_hmr()
@@ -310,16 +311,16 @@ def read_test_data(dataset_path):
         if (np.where(vid_segments[:-1] != vid_segments[1:])[0]).size != 0:
             ids[1:-1] = (np.where(vid_segments[:-1] != vid_segments[1:])[0]) + 1
 
-        for i in tqdm(range(len(set(vid_segments)))):
-            features = extract_features(model, np.array(vid_used_frames)[int(ids[i]):int(ids[i + 1])],
-                                        vid_used_bbox[int(ids[i]):int(ids[i + 1])],
-                                        kp_2d=np.array(vid_used_joints)[int(ids[i]):int(ids[i + 1])],
-                                        dataset='spin', debug=False)
-            dataset['features'].append(features)
+        # for i in tqdm(range(len(set(vid_segments)))):
+        #     features = extract_features(model, np.array(vid_used_frames)[int(ids[i]):int(ids[i + 1])],
+        #                                 vid_used_bbox[int(ids[i]):int(ids[i + 1])],
+        #                                 kp_2d=np.array(vid_used_joints)[int(ids[i]):int(ids[i + 1])],
+        #                                 dataset='spin', debug=False)
+        #     dataset['features'].append(features)
 
     for k in dataset.keys():
         dataset[k] = np.array(dataset[k])
-    dataset['features'] = np.concatenate(dataset['features'])
+    # dataset['features'] = np.concatenate(dataset['features'])
 
     return dataset
 
